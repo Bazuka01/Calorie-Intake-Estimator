@@ -1,0 +1,74 @@
+<!-- Calorie Intake Estimator Page -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Intake Estimator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header> 
+        <h1>Calorie Intake Estimator</h1>
+    </header>
+    
+    <main>
+        <section class="input-section">
+            <h2>Enter Your Details</h2>
+            <form id="calorie-form">
+                <label for="age">Age:</label>
+                <input type="number" id="age" placeholder="Enter your age" min="0" max="120" name="age" required>
+
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+
+                <label for="weight">Weight (lbs):</label>
+                <input type="number" id="weight" placeholder="Enter your weight" name="weight" min="50" max="600" step="0.1" required>
+
+                <label>Height:</label>
+                <div class="height-inputs">
+                    <input type="number" id="height-feet" name="height-feet" placeholder="Feet" min="2" max="8" required>
+
+                    <input type="number" id="height-inches" name="height-inches" placeholder="Inches" min="0" max="11" step="1" required>
+               </div>
+
+                <label for="activity">Activity Level:</label>
+                <select id="activity" name="activity" required>
+                    <option value="">Select Activity Level</option>
+                    <option value="sedentary">Sedentary (little or no exercise)</option>
+                    <option value="light">Lightly Active (exercise 1-3 days/week)</option>
+                    <option value="moderate">Moderately Active (exercise 3-5 days/week)</option>
+                    <option value="active">Active (exercise 6-7 days/week)</option>
+                    <option value="very-active">Very Active (hard exercise daily)</option>
+                </select>
+
+                <label for="goal">Goal:</label>
+                <select id="goal" name="goal" required>
+                    <option value="">Select Goal</option>
+                    <option value="lose-weight">Lose Weight</option>
+                    <option value="maintain-weight">Maintain Weight</option>
+                    <option value="gain-weight">Gain Weight</option>
+                </select>
+
+                <button type="submit">Calculate Calorie Intake</button>
+            </form>
+        </section>
+
+        <section class="result-section">
+            <h2>Estimated Daily Calorie Intake</h2>
+            <p id="calorie-result"></p>
+        </section>
+    </main>
+
+    <footer>
+    <p>&copy; 2026 Calorie Intake Estimator. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

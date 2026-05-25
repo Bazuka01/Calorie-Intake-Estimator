@@ -1,0 +1,157 @@
+/* ===== GLOBAL RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+}
+
+/* ===== PAGE BACKGROUND ===== */
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===== HEADER ===== */
+header {
+    width: 100%;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: #38bdf8;
+    letter-spacing: 1px;
+}
+
+/* ===== MAIN CONTAINER ===== */
+main {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+}
+
+/* ===== INPUT SECTION CARD ===== */
+.input-section {
+    background: #111827;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-section h2 {
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    color: #f8fafc;
+}
+
+/* ===== FORM ELEMENTS ===== */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 12px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+}
+
+input,
+select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #0f172a;
+    color: #e2e8f0;
+    outline: none;
+    transition: 0.2s ease;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+input:focus,
+select:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+input::placeholder {
+    color: #64748b;
+}
+
+/* ===== BUTTON ===== */
+button {
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #38bdf8;
+    color: #0f172a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
+}
+
+button:hover {
+    background: #0ea5e9;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
+}
+
+/* ===== RESULT SECTION ===== */
+.result-section {
+    background: #111827;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.result-section h2 {
+    margin-bottom: 10px;
+    color: #f8fafc;
+}
+
+#calorie-result {
+    font-size: 1.2rem;
+    color: #38bdf8;
+    margin-top: 10px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    margin-top: 30px;
+    padding: 20px;
+    font-size: 0.8rem;
+    color: #64748b;
+    text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/*HEIGHT INPUTS FLEXBOX*/
+.height-inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.height-inputs input {
+    width: 100%;
+}

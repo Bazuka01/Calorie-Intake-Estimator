@@ -130,6 +130,19 @@ button:hover {
     margin-top: 10px;
 }
 
+#breakdown p {
+    margin: 8px 0;
+    font-size: 1rem;
+    color: #cbd5e1;
+}
+
+#final-result {
+    margin-top: 12px;
+    font-size: 1.2rem;
+    color: #38bdf8;
+    font-weight: bold;
+}
+
 /* ===== FOOTER ===== */
 footer {
     margin-top: 30px;

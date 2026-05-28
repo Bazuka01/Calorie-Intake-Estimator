@@ -138,7 +138,6 @@ const inputs = form.querySelectorAll("input, select");
 
 inputs.forEach(input => {
     input.addEventListener("input", () => {
-        userHasStarted = true;
         calculateCalories();
     });
 });

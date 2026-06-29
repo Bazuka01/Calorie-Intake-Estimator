@@ -51,15 +51,19 @@ header h1 {
 /* Main Container */
 main {
     width: 100%;
-    max-width: 600px;
+    max-width: 1200px;
     padding: 20px;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 25px;
 }
 
 /* Input Section */
 .input-section {
+    flex: 1.5;
+    min-width: 500px;
     background: #111827;
     padding: 25px;
     border-radius: 16px;
@@ -150,6 +154,8 @@ button:hover {
 
 /* Result Section */
 .result-section {
+    flex: 1;
+    min-width: 350px;
     background: #111827;
     padding: 20px;
     border-radius: 16px;

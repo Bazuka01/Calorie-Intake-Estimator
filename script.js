@@ -1,19 +1,15 @@
 // Calorie Intake Estimator
 // This script calculates an estimated daily calorie intake based on user input
 
-let userHasStarted = false;
+
 
 const form = document.getElementById("calorie-form");
 
-// Main Calculation Function
 
-function calculateCalories() {
 
-    // Prevent early calculation before user interacts
-    if (!userHasStarted) return;
+// Input Values
 
-    // Retrieve and Validate User Inputs
-
+function getInputs() {
     const age = Number(document.getElementById("age").value);
     const weight = Number(document.getElementById("weight").value);
     const feet = Number(document.getElementById("height-feet").value);
@@ -23,7 +19,15 @@ function calculateCalories() {
     const activityLevel = document.getElementById("activity").value;
     const goal = document.getElementById("goal").value;
 
-    // Input Validation - Ensure all fields are filled
+    return { age, weight, feet, inches, gender, activityLevel, goal };
+}
+
+
+
+// Input Validation
+
+function validateInputs(data) {
+    const { age, weight, feet, inches, gender, activityLevel, goal } = data;
 
     if (
         !age &&
@@ -42,17 +46,29 @@ function calculateCalories() {
         document.getElementById("activity-result").textContent = "-";
         document.getElementById("tdee-result").textContent = "-";
         document.getElementById("final-result").textContent = "-";
-        return;
+        return false;
     }
 
-    // Unit Conversions
+    return true;
+}
 
+
+
+// Unit Conversions
+
+function convertUnits(weight, feet, inches) {
     const heightInInches = (feet * 12) + inches;
     const heightInCm = heightInInches * 2.54;
     const weightInKg = weight * 0.453592;
 
-    // Activity Level Multipliers
+    return { heightInCm, weightInKg };
+}
 
+
+
+// Activity Level Multipliers
+
+function getMultiplier(activityLevel) {
     const activityMultipliers = {
         "sedentary": 1.2,
         "light": 1.375,
@@ -61,24 +77,34 @@ function calculateCalories() {
         "very-active": 1.9
     };
 
-    const multiplier = activityMultipliers[activityLevel];
+    return activityMultipliers[activityLevel];
+}
 
-    // Basal Metabolic Rate (BMR) Calculation using Mifflin-St Jeor Equation
 
-    let bmr;
 
+// BMR Calculation
+
+function calculateBMR(gender, weightInKg, heightInCm, age) {
     if (gender === "male") {
-        bmr = 10 * weightInKg + 6.25 * heightInCm - 5 * age + 5;
+        return 10 * weightInKg + 6.25 * heightInCm - 5 * age + 5;
     } else {
-        bmr = 10 * weightInKg + 6.25 * heightInCm - 5 * age - 161;
+        return 10 * weightInKg + 6.25 * heightInCm - 5 * age - 161;
     }
+}
 
-    // Total Daily Energy Expenditure (TDEE) Calculation
 
-    let tdee = bmr * multiplier;
 
-    // Goal Adjustments
+// TDEE Calculation
 
+function calculateTDEE(bmr, multiplier) {
+    return bmr * multiplier;
+}
+
+
+
+// Goal Adjustments
+
+function applyGoal(tdee, goal) {
     let finalCalories = tdee;
 
     if (goal === "lose-weight") {
@@ -87,8 +113,14 @@ function calculateCalories() {
         finalCalories += 300;
     }
 
-    // Display Results
+    return finalCalories;
+}
 
+
+
+// Display Results
+
+function displayResults(bmr, multiplier, tdee, finalCalories) {
     document.getElementById("bmr-result").textContent =
         `${Math.round(bmr)} kcal`;
 
@@ -100,51 +132,100 @@ function calculateCalories() {
 
     document.getElementById("final-result").textContent =
         `${Math.round(finalCalories)} kcal`;
-
-    // Debugging Logs
-
-    console.log(age);
-
-    console.log(
-        `Gender: ${gender.charAt(0).toUpperCase() + gender.slice(1)}`
-    );
-
-    console.log("Weight: " + weightInKg + " kg");
-
-    console.log("Height: " + heightInCm + " cm");
-
-    console.log(`Activity Level: ${activityLevel}`);
-
-    console.log(`Goal: ${goal}`);
-
-    console.log("BMR:", bmr);
-
-    console.log("TDEE:", tdee);
-
-    console.log("Final:", finalCalories);
 }
+
+
+
+// Main Calculation Function
+
+function calculateCalories() {
+
+    const data = getInputs();
+
+    if (!validateInputs(data)) return;
+
+    const { age, weight, feet, inches, gender, activityLevel, goal } = data;
+
+    const { heightInCm, weightInKg } = convertUnits(weight, feet, inches);
+
+    const multiplier = getMultiplier(activityLevel);
+
+    const bmr = calculateBMR(gender, weightInKg, heightInCm, age);
+
+    const tdee = calculateTDEE(bmr, multiplier);
+
+    const finalCalories = applyGoal(tdee, goal);
+
+    displayResults(bmr, multiplier, tdee, finalCalories);
+
+    // Return data for history
+
+    return {
+    age,
+    weight,
+    feet,
+    inches,
+    activityLevel,
+    goal,
+    finalCalories
+}};
+
+
 
 // Form Submission Handler
 
 form.addEventListener("submit", function(event) {
     event.preventDefault();
     userHasStarted = true;
-    calculateCalories();
+
+    const result = calculateCalories();
+
+
+    if (result) {
+        saveHistory(result);
+    }
+    
 });
 
-// Live Update on Input Change
 
-const inputs = form.querySelectorAll("input, select");
-
-inputs.forEach(input => {
-    input.addEventListener("input", () => {
-        calculateCalories();
-    });
-});
 
 // Theme Toggle Functionality
+
 const themeToggle = document.getElementById("theme-toggle");
 
 themeToggle.addEventListener("change", () => {
     document.body.classList.toggle("light-mode");
 });
+
+// Save History Functionality (localStorage)
+
+function saveHistory(data) {
+    let history = JSON.parse(localStorage.getItem("calorieHistory")) || [];
+    
+    const entry = {
+        date: new Date().toLocaleString(),
+        age: data.age,
+        weight: data.weight,
+        heightFeet: data.feet,
+        heightInches: data.inches,
+        height: `${data.feet}'${data.inches}"`,
+        activityLevel: data.activityLevel,
+        goal: data.goal,
+        finalCalories: Math.round(data.finalCalories)
+    };
+
+    history.push(entry);
+
+    // Keep only last 10 entries
+
+    history = history.slice(0, 10);
+
+    localStorage.setItem("calorieHistory", JSON.stringify(history));
+
+}
+
+// Load History
+
+function loadHistory() {
+    return JSON.parse(localStorage.getItem("calorieHistory")) || [];
+    }

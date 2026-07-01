@@ -193,8 +193,32 @@ form.addEventListener("submit", function(event) {
 
 const themeToggle = document.getElementById("theme-toggle");
 
+// Load saved theme
+
+if (localStorage.getItem("theme") === "light") {
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.checked = true;
+
+}
+
+    // Toggle theme
+
 themeToggle.addEventListener("change", () => {
+
     document.body.classList.toggle("light-mode");
+
+    if (document.body.classList.contains("light-mode")) {
+
+        localStorage.setItem("theme", "light");
+
+    } else {
+
+        localStorage.setItem("theme", "dark");
+
+    }
+
 });
 
 // Save History Functionality (localStorage)
@@ -214,7 +238,7 @@ function saveHistory(data) {
         finalCalories: Math.round(data.finalCalories)
     };
 
-    history.push(entry);
+    history.unshift(entry);
 
     // Keep only last 10 entries
 
@@ -228,4 +252,4 @@ function saveHistory(data) {
 
 function loadHistory() {
     return JSON.parse(localStorage.getItem("calorieHistory")) || [];
-    }
+}

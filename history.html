@@ -1,0 +1,55 @@
+<!-- Calorie Intake Estimator Page -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Intake Estimator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header> 
+        <h1>Calorie Intake Estimator</h1>
+        <nav class ="navbar">
+            <a href="index.html">Home</a>
+            <a href="about.html">Dashboard</a>
+            <a href="history.html">History</a>
+        </nav>
+        <div class="theme-switch">
+    <span>🌙</span>
+
+    <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider"></span>
+    </label>
+
+    <span>☀️</span>
+</div>
+    </header>
+    <main>
+    <section class="history-section">
+        <h2>Calculation History</h2>
+
+        <button id="clear-history-btn">Clear History</button>
+
+        <div id="history-list">
+            <p>No saved calculations yet.</p>
+        </div>
+    </section>
+</main>
+<footer>
+    <nav class="footer-nav">
+        <a href="#">Privacy</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <p>&copy; 2026 Calorie Intake Estimator. All rights reserved.</p>
+</footer>
+
+    <script src="history.js"></script>
+
+</body>
+</html>

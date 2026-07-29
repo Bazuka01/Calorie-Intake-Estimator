@@ -567,3 +567,84 @@ input[type=number]::-webkit-inner-spin-button {
 .light-mode .food-card h3 {
     color: #0ea5e9;
 }
+
+/* Recommendation Section */
+
+.recommendation-section {
+    width: 100%;
+    margin-top: 25px;
+    background: #111827;
+    padding: 25px;
+    border-radius: 16px;
+}
+
+
+.recommendation-section h2 {
+    color: #f8fafc;
+    margin-bottom: 8px;
+}
+
+
+#recommendation-description {
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+
+/* Recommendation List */
+
+#recommendation-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+
+/* Recommendation Items */
+
+.food-card {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 20px;
+    padding: 12px 18px;
+    transition: 0.2s ease;
+}
+
+
+.food-card h3 {
+    color: #38bdf8;
+    font-size: 1rem;
+    margin: 0;
+}
+
+
+.food-card p {
+    display: none;
+}
+
+/* Light Mode Recommendations */
+
+.light-mode .recommendation-section {
+    background: white;
+}
+
+
+.light-mode .recommendation-section h2 {
+    color: #0f172a;
+}
+
+
+.light-mode #recommendation-description {
+    color: #475569;
+}
+
+
+.light-mode .food-card {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+
+.light-mode .food-card h3 {
+    color: #0ea5e9;
+}

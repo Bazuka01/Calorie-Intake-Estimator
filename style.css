@@ -230,6 +230,7 @@ button:hover {
     color: #38bdf8;
 }
 
+
 /* Footer */
 footer {
     margin-top: 30px;
@@ -419,6 +420,7 @@ input[type=number]::-webkit-inner-spin-button {
     background: #0284c7;
 }
 
+
 /* Footer Navigation */
 
 .footer-nav {
@@ -473,4 +475,95 @@ input[type=number]::-webkit-inner-spin-button {
 
 #clear-history-btn {
     margin-bottom: 20px;
+}
+
+/* Nutrition Section */
+
+.nutrition-section {
+    width: 100%;
+    max-width: 900px;
+    background: #111827;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+
+.nutrition-description {
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+.goal-card {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.goal-card h3 {
+    color: #38bdf8;
+}
+
+#daily-calories {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.search-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+#food-results {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.food-card {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.food-card h3 {
+    color: #38bdf8;
+    margin-bottom: 10px;
+}
+
+.food-card p {
+    margin: 6px 0;
+}
+
+/* Light Mode Nutrition */
+
+.light-mode .nutrition-section {
+    background: white;
+}
+
+.light-mode .goal-card,
+.light-mode .food-card {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.light-mode .nutrition-description,
+.light-mode .food-card p {
+    color: #0f172a;
+}
+
+.light-mode .goal-card h3,
+.light-mode .food-card h3 {
+    color: #0ea5e9;
 }

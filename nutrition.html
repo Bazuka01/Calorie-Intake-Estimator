@@ -1,17 +1,14 @@
-<!-- Calorie Intake Estimator Page -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History</title>
+    <title>Nutrition</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <header> 
-        <h1>History</h1>
+        <h1>Nutrition</h1>
         <nav class ="navbar">
             <a href="index.html">Home</a>
             <a href="nutrition.html">Nutrition</a>
@@ -30,17 +27,57 @@
 </div>
     </header>
     <main>
-    <section class="history-section">
-        <h2>Calculation History</h2>
 
-        <button id="clear-history-btn">Clear History</button>
+<section class="nutrition-section">
 
-        <div id="history-list">
-            <p>No saved calculations yet.</p>
-        </div>
-    </section>
+    <h2>Nutrition Finder</h2>
+
+    <p class="nutrition-description">
+        Search foods that match your nutrition goals.
+    </p>
+
+    <div class="goal-card">
+
+        <h3>Your Daily Calorie Goal</h3>
+
+        <p id="daily-calories">
+            --
+        </p>
+
+    </div>
+
+    <div class="search-section">
+
+        <input
+            type="text"
+            id="food-search"
+            placeholder="Search for a food..."
+        >
+
+        <button id="search-button">
+            Search
+        </button>
+
+    </div>
+
+    <div class="filter-buttons">
+
+        <button>High Protein</button>
+
+        <button>Low Carb</button>
+
+        <button>Low Fat</button>
+
+    </div>
+
+    <div id="food-results">
+
+    </div>
+
+</section>
+
 </main>
-<footer>
+    <footer>
     <nav class="footer-nav">
         <a href="#">Privacy</a>
         <a href="#">About</a>
@@ -50,7 +87,7 @@
     <p>&copy; 2026 Calorie Intake Estimator. All rights reserved.</p>
 </footer>
 
-    <script src="history.js"></script>
+    <script src="nutrition.js"></script>
 
 </body>
 </html>

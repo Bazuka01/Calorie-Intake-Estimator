@@ -648,3 +648,78 @@ input[type=number]::-webkit-inner-spin-button {
 .light-mode .food-card h3 {
     color: #0ea5e9;
 }
+
+/* Nutrition Card Section */
+.nutrition-card {
+    margin-top: 25px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.nutrition-card h3 {
+    color: #38bdf8;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.nutrition-grid div {
+    background: #111827;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.nutrition-grid span {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+}
+
+.nutrition-grid strong {
+    color: #f8fafc;
+    font-size: 1rem;
+}
+
+/* Light Mode Nutrition Card Section */
+
+.light-mode .nutrition-card {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.light-mode .nutrition-card h3 {
+    color: #0ea5e9;
+}
+
+.light-mode .nutrition-grid div {
+    background: white;
+}
+
+.light-mode .nutrition-grid span {
+    color: #475569;
+}
+
+.light-mode .nutrition-grid strong {
+    color: #0f172a;
+}
+
+.recommendation-food {
+    cursor: pointer;
+}
+
+.recommendation-food p {
+    color: #38bdf8;
+    font-size: 0.85rem;
+}
+
+.light-mode .recommendation-food p {
+    color: #0ea5e9;
+}

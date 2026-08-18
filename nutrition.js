@@ -1,13 +1,16 @@
-
 // Nutrition Page
 // This script handles nutrition recommendations and food searches
+
+
+// API Configuration
+
+const API_URL = "http://127.0.0.1:5000/nutrition";
 
 
 
 // Theme Toggle Functionality
 
 const themeToggle = document.getElementById("theme-toggle");
-
 
 // Load saved theme
 
@@ -19,13 +22,11 @@ if (localStorage.getItem("theme") === "light") {
 
 }
 
-
 // Toggle theme
 
 themeToggle.addEventListener("change", () => {
 
     document.body.classList.toggle("light-mode");
-
 
     if (document.body.classList.contains("light-mode")) {
 
@@ -41,25 +42,20 @@ themeToggle.addEventListener("change", () => {
 
 
 
-
 // Load Latest Calorie Goal
 
 function loadLatestGoal() {
 
-    const history = JSON.parse(localStorage.getItem("calorieHistory")) || [];
-
+    const history =
+        JSON.parse(localStorage.getItem("calorieHistory")) || [];
 
     if (history.length === 0) {
-
         return null;
-
     }
-
 
     return history[0];
 
 }
-
 
 
 
@@ -69,17 +65,17 @@ function displayGoal() {
 
     const latestEntry = loadLatestGoal();
 
-    const goalElement = document.getElementById("daily-calories");
-
+    const goalElement =
+        document.getElementById("daily-calories");
 
     if (!latestEntry) {
 
-        goalElement.textContent = "No calculation found";
+        goalElement.textContent =
+            "No calculation found";
 
         return;
 
     }
-
 
     goalElement.textContent =
         `${latestEntry.finalCalories} kcal`;
@@ -88,21 +84,18 @@ function displayGoal() {
 
 
 
-
 // Get Food Search Input
 
 function getFoodInput() {
 
-    const search = document
-        .getElementById("food-search")
+    const search =
+        document.getElementById("food-search")
         .value
         .trim();
-
 
     return search;
 
 }
-
 
 
 
@@ -118,41 +111,95 @@ function validateFood(search) {
 
     }
 
-
     return true;
 
 }
 
 
 
+// Get Nutrient Value
 
-// Display Food Results
+function getNutrientValue(nutrients, nutrientName) {
 
-function displayFoodResults(food) {
+    const nutrient = nutrients.find(
+        item => item.nutrientName === nutrientName
+    );
 
-    const foodResults = document.getElementById("food-results");
-
-
-    foodResults.innerHTML = `
-
-        <div class="food-card">
-
-            <h3>${food}</h3>
-
-            <p><strong>Calories:</strong> -- kcal</p>
-
-            <p><strong>Protein:</strong> -- g</p>
-
-            <p><strong>Carbs:</strong> -- g</p>
-
-            <p><strong>Fat:</strong> -- g</p>
-
-        </div>
-
-    `;
+    return nutrient ? nutrient.value : 0;
 
 }
 
+
+
+// Display Food Results
+
+function displayFoodResults(results) {
+
+    const foodResults =
+        document.getElementById("food-results");
+
+    foodResults.innerHTML = "";
+
+    results.forEach(nutrition => {
+
+        foodResults.innerHTML += `
+
+            <div class="nutrition-card">
+
+                <h3>${nutrition.name}</h3>
+
+                <p class="serving-size">
+                    Serving:
+                    ${nutrition.servingSize || "N/A"}
+                    ${nutrition.servingSizeUnit || ""}
+                </p>
+
+                <div class="nutrition-grid">
+
+                    <div>
+                        <span>Calories</span>
+                        <strong>
+                            ${Math.round(nutrition.calories)} kcal
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Protein</span>
+                        <strong>
+                            ${nutrition.protein} g
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Carbs</span>
+                        <strong>
+                            ${nutrition.carbs} g
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Fat</span>
+                        <strong>
+                            ${nutrition.fat} g
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Fiber</span>
+                        <strong>
+                            ${nutrition.fiber} g
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
 
 
 
@@ -162,25 +209,99 @@ function searchFood() {
 
     const food = getFoodInput();
 
-
     if (!validateFood(food)) {
-
         return;
-
     }
-
 
     fetchNutritionData(food);
 
 }
 
-// Fetch Nutrition Data Functionality
+
+
+// Fetch Nutrition Data from API
 
 async function fetchNutritionData(food) {
 
-    // API request will go here
+    try {
 
-    console.log("Searching API for:", food);
+        showLoading();
+
+        const response = await fetch(
+            `${API_URL}?food=${encodeURIComponent(food)}`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "Failed to fetch nutrition data."
+            );
+        }
+
+        const data = await response.json();
+
+        if (!data.foods || data.foods.length === 0) {
+
+            console.log("No food found.");
+
+            return;
+
+        }
+
+        const nutritionResults =
+            data.foods.map(foodData => {
+
+                const nutrients =
+                    foodData.foodNutrients;
+
+                return {
+
+                    name: foodData.description,
+
+                    calories: getNutrientValue(
+                        nutrients,
+                        "Energy"
+                    ),
+
+                    protein: getNutrientValue(
+                        nutrients,
+                        "Protein"
+                    ),
+
+                    carbs: getNutrientValue(
+                        nutrients,
+                        "Carbohydrate, by difference"
+                    ),
+
+                    fat: getNutrientValue(
+                        nutrients,
+                        "Total lipid (fat)"
+                    ),
+
+                    fiber: getNutrientValue(
+                        nutrients,
+                        "Fiber, total dietary"
+                    ),
+
+                    servingSize:
+                        foodData.servingSize,
+
+                    servingSizeUnit:
+                        foodData.servingSizeUnit
+
+                };
+
+            });
+
+        displayFoodResults(nutritionResults);
+
+    } catch (error) {
+
+        console.error(
+            "Nutrition API error:",
+            error
+        );
+
+    }
 
 }
 
@@ -188,37 +309,13 @@ async function fetchNutritionData(food) {
 
 // Search Button Functionality
 
-const searchButton = document.getElementById("search-button");
+const searchButton =
+    document.getElementById("search-button");
 
-
-searchButton.addEventListener("click", searchFood);
-
-
-
-
-// Load Page Data
-
-displayGoal();
-
-displayRecommendations();
-
-// Load User Goal
-
-function loadLatestGoal() {
-
-    const history = JSON.parse(localStorage.getItem("calorieHistory")) || [];
-
-
-    if (history.length === 0) {
-
-        return null;
-
-    }
-
-
-    return history[0];
-
-}
+searchButton.addEventListener(
+    "click",
+    searchFood
+);
 
 
 
@@ -226,12 +323,12 @@ function loadLatestGoal() {
 
 function getRecommendations(goal) {
 
-
     if (goal === "lose-weight") {
 
         return {
 
-            description: "Foods focused on high protein and lower calories",
+            description:
+                "Foods focused on high protein and lower calories",
 
             foods: [
 
@@ -246,13 +343,12 @@ function getRecommendations(goal) {
 
     }
 
-
-
     else if (goal === "gain-weight") {
 
         return {
 
-            description: "Foods focused on higher calories and nutrient density",
+            description:
+                "Foods focused on higher calories and nutrient density",
 
             foods: [
 
@@ -267,20 +363,19 @@ function getRecommendations(goal) {
 
     }
 
-
-
     else {
 
         return {
 
-            description: "Balanced foods for maintaining your goals",
+            description:
+                "Balanced foods for maintaining your goals",
 
             foods: [
 
                 "Chicken",
                 "Eggs",
                 "Oatmeal",
-                "Vegetables"
+                "Broccoli"
 
             ]
 
@@ -296,61 +391,101 @@ function getRecommendations(goal) {
 
 function displayRecommendations() {
 
-
     const latestEntry = loadLatestGoal();
-
 
     const recommendationList =
         document.getElementById("recommendation-list");
 
-
     const description =
         document.getElementById("recommendation-description");
-
-
 
     if (!latestEntry) {
 
         recommendationList.innerHTML =
-            "<p>Complete a calculation to get recommendations.</p>";
+            "<p>Complete a calculation to get recommendations.";
 
         return;
 
     }
 
-
-
     const recommendations =
         getRecommendations(latestEntry.goal);
-
-
 
     description.textContent =
         recommendations.description;
 
-
-
     recommendationList.innerHTML = "";
-
-
 
     recommendations.foods.forEach(food => {
 
+        const card = document.createElement("div");
 
-        recommendationList.innerHTML += `
+        card.classList.add(
+            "food-card",
+            "recommendation-food"
+        );
 
-            <div class="food-card">
-
-                <h3>${food}</h3>
-
-                <p>Nutrition data coming soon...</p>
-
-            </div>
-
+        card.innerHTML = `
+            <h3>${food}</h3>
+            <p>View nutrition information →</p>
         `;
 
+        card.addEventListener("click", () => {
+
+            document.getElementById("food-search").value =
+                food;
+
+            fetchNutritionData(food);
+
+            document.getElementById("food-results")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        });
+
+        recommendationList.appendChild(card);
 
     });
 
+}
+
+// Show Loading Message
+
+function showLoading() {
+
+    const foodResults =
+        document.getElementById("food-results");
+
+    foodResults.innerHTML = `
+        <p class="status-message">
+            Searching nutrition database...
+        </p>
+    `;
 
 }
+
+// Show Error Message
+
+function showError(message) {
+
+    const foodResults =
+        document.getElementById("food-results");
+
+    foodResults.innerHTML = `
+        <p class="status-message error">
+            ${message}
+        </p>
+    `;
+
+}
+
+
+
+
+
+// Load Page Data
+
+displayGoal();
+
+displayRecommendations();

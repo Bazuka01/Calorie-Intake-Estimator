@@ -30,7 +30,7 @@ def nutrition():
         params={
             "api_key": USDA_API_KEY,
             "query": food,
-            "pageSize": 5
+            "pageSize": 20
         }
     )
 

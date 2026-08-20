@@ -41,6 +41,8 @@ themeToggle.addEventListener("change", () => {
 });
 
 
+let currentNutritionResults = [];
+
 
 // Load Latest Calorie Goal
 
@@ -106,6 +108,14 @@ function validateFood(search) {
     if (search === "") {
 
         alert("Please enter a food.");
+
+        return false;
+
+    }
+
+    if (!/[a-zA-Z]/.test(search)) {
+
+        alert("Please enter a valid food name.");
 
         return false;
 
@@ -201,6 +211,53 @@ function displayFoodResults(results) {
 
 }
 
+// Sort Food Results
+
+function sortByHighProtein() {
+
+    const sortedResults =
+        [...currentNutritionResults].sort(
+            (a, b) => b.protein - a.protein
+        );
+
+    displayFoodResults(sortedResults);
+}
+
+
+function sortByLowCarb() {
+
+    const sortedResults =
+        [...currentNutritionResults].sort(
+            (a, b) => a.carbs - b.carbs
+        );
+
+    displayFoodResults(sortedResults);
+}
+
+
+function sortByLowFat() {
+
+    const sortedResults =
+        [...currentNutritionResults].sort(
+            (a, b) => a.fat - b.fat
+        );
+
+    displayFoodResults(sortedResults);
+}
+
+// Set Active Filter Button
+
+function setActiveFilter(activeButton) {
+
+    const filterButtons =
+        document.querySelectorAll(".filter-buttons button");
+
+    filterButtons.forEach(button => {
+        button.classList.remove("active");
+    });
+
+    activeButton.classList.add("active");
+}
 
 
 // Search Food Functionality
@@ -217,7 +274,33 @@ function searchFood() {
 
 }
 
+// Show Loading Message
 
+function showLoading() {
+
+    const foodResults =
+        document.getElementById("food-results");
+
+    foodResults.innerHTML = `
+        <p class="loading-message">
+            Searching for nutrition information...
+        </p>
+    `;
+}
+
+// Show No Results Message
+
+function showNoResults(food) {
+
+    const foodResults =
+        document.getElementById("food-results");
+
+    foodResults.innerHTML = `
+        <p class="no-results-message">
+            No nutrition information found for "${food}".
+        </p>
+    `;
+}
 
 // Fetch Nutrition Data from API
 
@@ -241,7 +324,7 @@ async function fetchNutritionData(food) {
 
         if (!data.foods || data.foods.length === 0) {
 
-            console.log("No food found.");
+            showNoResults(food);
 
             return;
 
@@ -292,13 +375,19 @@ async function fetchNutritionData(food) {
 
             });
 
-        displayFoodResults(nutritionResults);
+        currentNutritionResults = nutritionResults;
+
+        displayFoodResults(currentNutritionResults);
 
     } catch (error) {
 
         console.error(
             "Nutrition API error:",
             error
+        );
+        
+        showError(
+            "An error occurred while fetching nutrition data. Please try again later."
         );
 
     }
@@ -450,22 +539,8 @@ function displayRecommendations() {
 
 }
 
-// Show Loading Message
 
-function showLoading() {
-
-    const foodResults =
-        document.getElementById("food-results");
-
-    foodResults.innerHTML = `
-        <p class="status-message">
-            Searching nutrition database...
-        </p>
-    `;
-
-}
-
-// Show Error Message
+// Show API Error Message
 
 function showError(message) {
 
@@ -489,3 +564,38 @@ function showError(message) {
 displayGoal();
 
 displayRecommendations();
+
+
+// Event Listeners for Sorting
+
+document
+    .getElementById("high-protein-filter")
+    .addEventListener("click", function () {
+
+        sortByHighProtein();
+
+        setActiveFilter(this);
+
+    });
+
+
+document
+    .getElementById("low-carb-filter")
+    .addEventListener("click", function () {
+
+        sortByLowCarb();
+
+        setActiveFilter(this);
+
+    });
+
+
+document
+    .getElementById("low-fat-filter")
+    .addEventListener("click", function () {
+
+        sortByLowFat();
+
+        setActiveFilter(this);
+
+    });

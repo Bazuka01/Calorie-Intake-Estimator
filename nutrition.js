@@ -4,7 +4,7 @@
 
 // API Configuration
 
-const API_URL = "http://127.0.0.1:5000/nutrition";
+const API_URL = "https://calorix-backend-h1ta.onrender.com/nutrition";
 
 
 

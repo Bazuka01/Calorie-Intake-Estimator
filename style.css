@@ -729,3 +729,11 @@ input[type=number]::-webkit-inner-spin-button {
 .light-mode .recommendation-food p {
     color: #0ea5e9;
 }
+
+.tagline {
+    margin-top: -8px;
+    margine-bottom: 20px;
+    font-style: italic;
+    opacity: 0.65;
+    font-size: 0.95rem;
+}

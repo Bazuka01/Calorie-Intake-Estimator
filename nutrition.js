@@ -43,6 +43,8 @@ themeToggle.addEventListener("change", () => {
 
 let currentNutritionResults = [];
 
+let activeFilter = null;
+
 
 // Load Latest Calorie Goal
 
@@ -215,6 +217,17 @@ function displayFoodResults(results) {
 
 function sortByHighProtein() {
 
+    if (activeFilter === "high-protein") {
+
+        activeFilter = null;
+
+        displayFoodResults(currentNutritionResults);
+
+        return;
+    }
+
+    activeFilter = "high-protein";
+
     const sortedResults =
         [...currentNutritionResults].sort(
             (a, b) => b.protein - a.protein
@@ -226,6 +239,17 @@ function sortByHighProtein() {
 
 function sortByLowCarb() {
 
+    if (activeFilter === "low-carb") {
+
+        activeFilter = null;
+
+        displayFoodResults(currentNutritionResults);
+
+        return;
+    }
+
+    activeFilter = "low-carb";
+
     const sortedResults =
         [...currentNutritionResults].sort(
             (a, b) => a.carbs - b.carbs
@@ -236,6 +260,17 @@ function sortByLowCarb() {
 
 
 function sortByLowFat() {
+
+    if (activeFilter === "low-fat") {
+
+        activeFilter = null;
+
+        displayFoodResults(currentNutritionResults);
+
+        return;
+    }
+
+    activeFilter = "low-fat";
 
     const sortedResults =
         [...currentNutritionResults].sort(
@@ -308,6 +343,14 @@ async function fetchNutritionData(food) {
 
     try {
 
+        activeFilter = null;
+
+        document
+            .querySelectorAll(".filter-buttons button")
+            .forEach(button => {
+                button.classList.remove("active");
+            });
+
         showLoading();
 
         const response = await fetch(
@@ -321,6 +364,7 @@ async function fetchNutritionData(food) {
         }
 
         const data = await response.json();
+
 
         if (!data.foods || data.foods.length === 0) {
 
@@ -381,6 +425,7 @@ async function fetchNutritionData(food) {
 
     } catch (error) {
 
+
         console.error(
             "Nutrition API error:",
             error
@@ -393,8 +438,6 @@ async function fetchNutritionData(food) {
     }
 
 }
-
-
 
 // Search Button Functionality
 
@@ -574,7 +617,11 @@ document
 
         sortByHighProtein();
 
-        setActiveFilter(this);
+        if (activeFilter === "high-protein") {
+            setActiveFilter(this);
+        } else {
+            this.classList.remove("active");
+        }
 
     });
 
@@ -585,7 +632,11 @@ document
 
         sortByLowCarb();
 
-        setActiveFilter(this);
+        if (activeFilter === "low-carb") {
+            setActiveFilter(this);
+        } else {
+            this.classList.remove("active");
+        }
 
     });
 
@@ -596,6 +647,10 @@ document
 
         sortByLowFat();
 
-        setActiveFilter(this);
+        if (activeFilter === "low-fat") {
+            setActiveFilter(this);
+        } else {
+            this.classList.remove("active");
+        }
 
     });

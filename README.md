@@ -3,6 +3,9 @@ Your nutrition, simplified.
 
 Calorix is a full-stack web application that helps users estimate their daily calorie needs and explore nutrition information based on their personal goals and activity level.
 
+## Live Demo
+https://calorix-fekc.onrender.com
+
 ## Features
 - Calculate estimated daily calorie intake
 - Calculate Basal Metabolic Rate (BMR)
